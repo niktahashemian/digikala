@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>سبد خرید</title>
+<style>
+body{font-family:tahoma;background:#f5f5f5;padding:20px}
+.item{
+  background:#fff;
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center
+}
+button{
+  background:#ef394e;
+  color:#fff;
+  border:none;
+  padding:6px 12px;
+  border-radius:6px;
+  cursor:pointer
+}
+.total{font-weight:bold;margin-top:20px}
+.buy{width:100%;margin-top:10px}
+</style>
+</head>
+<body>
+
+<h2>سبد خرید</h2>
+<div id="list"></div>
+<div class="total" id="total"></div>
+<button class="buy">نهایی کردن خرید</button>
+<a href="index.html"><button class="buy">خانه</button></a>
+
+<script>
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+const list = document.getElementById('list');
+let total = 0;
+
+cart.forEach((p,i)=>{
+  total += p.price;
+  const div = document.createElement('div');
+  div.className = 'item';
+  div.innerHTML = `
+    ${p.name} - ${p.price.toLocaleString()} تومان
+    <button onclick="removeItem(${i})">حذف</button>
+  `;
+  list.appendChild(div);
+});
+
+document.getElementById('total').innerText =
+  'جمع کل: ' + total.toLocaleString() + ' تومان';
+
+function removeItem(index){
+  cart.splice(index,1);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  location.reload();
+}
+</script>
+
+</body>
+</html>
